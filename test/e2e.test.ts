@@ -59,7 +59,7 @@ describe("Hooktrack2", function () {
     assert.equal(res.status, 200);
     const key = json.key;
     res = await post(`/${key}`, { num: 1 });
-    res = await post(`/${key}`, { num: 2 }, false); // TODO
+    res = await post(`/${key}`, { num: 2 }, true);
     assert.equal(res.status, 200);
     const data = await res.json();
     console.log("data", data);
@@ -67,7 +67,7 @@ describe("Hooktrack2", function () {
     assert.equal(data.greeting, "Hello!");
 
     // for eventual consistency...
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    // await new Promise((resolve) => setTimeout(resolve, 1000));
 
     res = await get(`/endpoints/${key}/results`);
     let results = await res.json();
