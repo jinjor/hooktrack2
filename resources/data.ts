@@ -139,11 +139,9 @@ class DataImpl implements Data {
         },
         ExpressionAttributeValues: {
           ":key": { S: key },
-          ":sort": { S: "result-" },
-          ":from": { N: String(from ?? Date.now() - lifeTime) },
+          ":from": { S: "result-" + (from ?? Date.now() - lifeTime) },
         },
-        KeyConditionExpression:
-          "#key = :key and begins_with(sort, :sort) and requestedAt >= :from",
+        KeyConditionExpression: "#key = :key and sort >= :from",
         ProjectionExpression: "#result",
         ScanIndexForward: false,
       })
