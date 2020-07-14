@@ -7,28 +7,22 @@
   "scripts": {
     "postinstall": "cd resources",
     "build": "tsc && cd resources",
-    "cdk-test": "jest",
-    "e2e-test": "npm run build && mocha -r source-map-support/register test/e2e.test",
     "test": "prettier --check **/*.ts && npm run build && cdk synth",
+    "e2e-test": "npm run build && mocha -r source-map-support/register test/e2e.test",
     "cdk": "cdk"
   },
   "devDependencies": {
-    "@aws-cdk/assert": "1.51.0",
     "@types/aws-lambda": "^8.10.59",
-    "@types/express": "^4.17.7",
-    "@types/jest": "^25.2.1",
     "@types/mocha": "^8.0.0",
     "@types/node": "10.17.5",
     "@types/node-fetch": "^2.5.7",
     "@types/uuid": "^8.0.0",
     "aws-cdk": "1.51.0",
-    "jest": "^25.5.0",
     "mocha": "^8.0.1",
     "node-fetch": "^2.6.0",
     "prettier": "^2.0.5",
-    "ts-jest": "^25.3.1",
     "ts-node": "^8.1.0",
-    "typescript": "~3.7.2"
+    "typescript": "^3.7.5"
   },
   "dependencies": {
     "@aws-cdk/aws-apigateway": "^1.51.0",
