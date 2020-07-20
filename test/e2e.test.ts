@@ -89,6 +89,35 @@ describe("Hooktrack2", function () {
     console.log("results", results);
     assert.equal(results.items.length, 2);
   });
+  it("parallel", async () => {
+    const count = 100;
+    const createdAt = Date.now();
+    let res;
+    res = await post(`/endpoints`, {
+      method: "POST",
+      response: {
+        status: 200,
+        headers: {
+          foo: "bar",
+        },
+        body: JSON.stringify({
+          greeting: "Hello!",
+        }),
+      },
+    });
+    const json = await res.json();
+    console.log(json);
+    assert.equal(res.status, 200);
+    const key = json.key;
+    const promises = [...new Array(count).keys()].map((i) => {
+      return post(`/${key}`, { index: 1 });
+    });
+    await Promise.all(promises);
+    await new Promise((resolve) => setTimeout(resolve, 10 * 1000));
+    res = await get(`/endpoints/${key}/results?from=${createdAt}`);
+    const results = await res.json();
+    assert.equal(results.items.length, count);
+  });
   it("errors", async () => {
     let res;
     res = await get(`/foo`);
