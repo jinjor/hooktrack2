@@ -113,7 +113,7 @@ describe("Hooktrack2", function () {
       return post(`/${key}`, { index: 1 });
     });
     await Promise.all(promises);
-    await new Promise((resolve) => setTimeout(resolve, 10 * 1000));
+    // await new Promise((resolve) => setTimeout(resolve, 10 * 1000));
     res = await get(`/endpoints/${key}/results?from=${createdAt}`);
     const results = await res.json();
     assert.equal(results.items.length, count);
