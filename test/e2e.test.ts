@@ -90,7 +90,7 @@ describe("Hooktrack2", function () {
     assert.equal(results.items.length, 2);
   });
   it("parallel", async () => {
-    const count = 100;
+    const count = 50;
     const createdAt = Date.now();
     let res;
     res = await post(`/endpoints`, {

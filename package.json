@@ -9,7 +9,8 @@
     "build": "tsc && cd resources",
     "test": "prettier --check **/*.ts && npm run build && cdk synth",
     "e2e-test": "npm run build && mocha -r source-map-support/register test/e2e.test",
-    "cdk": "cdk"
+    "cdk": "cdk",
+    "deploy": "npm test && cdk deploy"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.59",
