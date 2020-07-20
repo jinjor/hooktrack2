@@ -19,7 +19,7 @@ async function send(
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      "x-foo": "bar",
+      "x-foo": "baz",
       "user-agent": "ua",
     },
   };
@@ -76,7 +76,7 @@ describe("Hooktrack2", function () {
     let results = await res.json();
     console.log("results", inspect(results, { depth: null }));
     assert.equal(results.items.length, 2);
-    assert.equal(results.items[0].request.headers["x-foo"], "bar");
+    assert.equal(results.items[0].request.headers["x-foo"], "baz");
     assert.equal(results.items[0].request.headers["user-agent"], "ua");
     assert.deepEqual(results.items[0].request.body, { num: 2 });
     assert.deepEqual(results.items[1].request.body, { num: 1 });

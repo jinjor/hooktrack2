@@ -16,15 +16,8 @@ const handler: lambda.APIGatewayProxyHandler = async (
     console.log("event", event);
     const method = event.httpMethod;
     const path = trimPath(event.path);
-    const headers = event.headers;
+    const headers = getNormalizedHeaders(event.headers);
     const body = parseJson(event.body);
-
-    // Lowercase all header names
-    for (const key of Object.keys(headers)) {
-      const value = headers[key];
-      delete headers[key];
-      headers[key.toLowerCase()] = value;
-    }
 
     let matched: string[] | null = [];
     if (method === "POST" && path === "/endpoints") {
@@ -111,6 +104,13 @@ function decode<T>(decoder: Decoder<T>, value: unknown): T {
 }
 function trimPath(path: string): string {
   return path.replace(/(^\/api)/, "");
+}
+function getNormalizedHeaders(headers: { [name: string]: string }) {
+  const ret: { [name: string]: string } = {};
+  for (const key of Object.keys(headers)) {
+    ret[key.toLowerCase()] = headers[key];
+  }
+  return ret;
 }
 function parseJson(body: string | null): any {
   try {
