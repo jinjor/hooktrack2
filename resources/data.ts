@@ -96,7 +96,13 @@ class DataImpl implements Data {
         TableName: this.tableName,
         Item: {
           key: { S: key },
-          sort: { S: "result-" + result.requestedAt },
+          sort: {
+            S:
+              "result-" +
+              result.requestedAt +
+              "-" +
+              Math.random().toString(36).slice(-8), // for uniqueness
+          },
           result: { S: JSON.stringify(result) },
           requestedAt: { N: String(result.requestedAt) },
           ttl: { N: String(ttl) },
