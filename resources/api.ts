@@ -1,8 +1,6 @@
 import { getData, endpointDecoder, fromDecoder } from "./data";
 import * as lambda from "aws-lambda";
 import { Decoder } from "./decoder";
-import { inspect, promisify } from "util";
-import { gunzip, inflate } from "zlib";
 
 const tableName: string = process.env.TABLE_NAME!;
 
@@ -73,28 +71,6 @@ const handler: lambda.APIGatewayProxyHandler = async (
     });
   }
 };
-// async function inflateIfNeeded(
-//   source: string,
-//   contentEncoding: string
-// ): Promise<string> {
-//   try {
-//     if (contentEncoding === "gzip") {
-//       return (
-//         await promisify(gunzip)(Buffer.from(source, "base64"))
-//       ).toString();
-//     } else if (contentEncoding === "deflate") {
-//       return (
-//         await promisify(inflate)(Buffer.from(source, "base64"))
-//       ).toString();
-//     }
-//     return source;
-//   } catch (e) {
-//     throw new StatusError(
-//       400,
-//       e.message + ": " + typeof source + ": " + source
-//     );
-//   }
-// }
 function decode<T>(decoder: Decoder<T>, value: unknown): T {
   try {
     return decoder.run(value);
