@@ -18,6 +18,14 @@ const handler: lambda.APIGatewayProxyHandler = async (
     const path = trimPath(event.path);
     const headers = event.headers;
     const body = parseJson(event.body);
+
+    // Lowercase all header names
+    for (const key of Object.keys(headers)) {
+      const value = headers[key];
+      delete headers[key];
+      headers[key.toLowerCase()] = value;
+    }
+
     let matched: string[] | null = [];
     if (method === "POST" && path === "/endpoints") {
       console.log("branch 1");
