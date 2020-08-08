@@ -14,8 +14,12 @@
   },
   "devDependencies": {
     "@aws-cdk/aws-apigateway": "1.57.0",
+    "@aws-cdk/aws-cloudfront": "^1.57.0",
     "@aws-cdk/aws-dynamodb": "1.57.0",
     "@aws-cdk/aws-lambda": "1.57.0",
+    "@aws-cdk/aws-route53": "^1.57.0",
+    "@aws-cdk/aws-s3": "^1.57.0",
+    "@aws-cdk/aws-s3-deployment": "^1.57.0",
     "@aws-cdk/core": "1.57.0",
     "@types/aws-lambda": "^8.10.59",
     "@types/aws-sdk": "^2.7.0",
