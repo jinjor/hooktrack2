@@ -13,24 +13,22 @@
     "deploy": "npm test && cdk deploy"
   },
   "devDependencies": {
+    "@aws-cdk/aws-apigateway": "1.57.0",
+    "@aws-cdk/aws-dynamodb": "1.57.0",
+    "@aws-cdk/aws-lambda": "1.57.0",
+    "@aws-cdk/core": "1.57.0",
     "@types/aws-lambda": "^8.10.59",
+    "@types/aws-sdk": "^2.7.0",
     "@types/mocha": "^8.0.0",
-    "@types/node": "10.17.5",
+    "@types/node": "^12.12.54",
     "@types/node-fetch": "^2.5.7",
     "@types/uuid": "^8.0.0",
-    "aws-cdk": "1.51.0",
+    "aws-cdk": "1.57.0",
     "mocha": "^8.0.1",
     "node-fetch": "^2.6.0",
     "prettier": "^2.0.5",
+    "source-map-support": "^0.5.16",
     "ts-node": "^8.1.0",
     "typescript": "^3.7.5"
-  },
-  "dependencies": {
-    "@aws-cdk/aws-apigateway": "^1.51.0",
-    "@aws-cdk/aws-dynamodb": "^1.51.0",
-    "@aws-cdk/aws-lambda": "^1.51.0",
-    "@aws-cdk/core": "1.51.0",
-    "@types/aws-sdk": "^2.7.0",
-    "source-map-support": "^0.5.16"
   }
 }
