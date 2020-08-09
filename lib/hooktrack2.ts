@@ -2,9 +2,9 @@ import * as core from "@aws-cdk/core";
 import * as apigateway from "@aws-cdk/aws-apigateway";
 import * as lambda from "@aws-cdk/aws-lambda";
 import * as dynamodb from "@aws-cdk/aws-dynamodb";
-import cloudfront = require("@aws-cdk/aws-cloudfront");
-import s3 = require("@aws-cdk/aws-s3");
-import s3deploy = require("@aws-cdk/aws-s3-deployment");
+import * as cloudfront from "@aws-cdk/aws-cloudfront";
+import * as s3 from "@aws-cdk/aws-s3";
+import * as s3deploy from "@aws-cdk/aws-s3-deployment";
 import * as iam from "@aws-cdk/aws-iam";
 
 export interface Props {
