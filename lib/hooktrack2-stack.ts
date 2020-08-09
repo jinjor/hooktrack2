@@ -6,6 +6,8 @@ export class Hooktrack2Stack extends cdk.Stack {
     super(scope, id, props);
 
     new hooktrack2.Hooktrack2Service(this, "Hooktrack2", {
+      region: this.region,
+      urlSuffix: this.urlSuffix,
       domainName: this.node.tryGetContext("domain"),
       siteSubDomain: this.node.tryGetContext("subdomain"),
     });

@@ -8,13 +8,15 @@ import s3 = require("@aws-cdk/aws-s3");
 import s3deploy = require("@aws-cdk/aws-s3-deployment");
 import * as iam from "@aws-cdk/aws-iam";
 
-export interface StaticSiteProps {
+export interface Props {
+  region: string;
+  urlSuffix: string;
   domainName: string;
   siteSubDomain: string;
 }
 
 export class Hooktrack2Service extends core.Construct {
-  constructor(scope: core.Construct, id: string, props: StaticSiteProps) {
+  constructor(scope: core.Construct, id: string, props: Props) {
     super(scope, id);
 
     const table = new dynamodb.Table(this, "Hooktrack2Table", {
@@ -111,6 +113,18 @@ export class Hooktrack2Service extends core.Construct {
               originAccessIdentity: cloudFrontOAI,
             },
             behaviors: [{ isDefaultBehavior: true }],
+          },
+          {
+            customOriginSource: {
+              domainName: `${restApi.restApiId}.execute-api.${props.region}.${props.urlSuffix}`,
+            },
+            originPath: `/${restApi.deploymentStage.stageName}`,
+            behaviors: [
+              {
+                pathPattern: "/api/*",
+                allowedMethods: cloudfront.CloudFrontAllowedMethods.ALL,
+              },
+            ],
           },
         ],
       }
