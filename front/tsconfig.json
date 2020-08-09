@@ -18,7 +18,8 @@
     "experimentalDecorators": true,
     "strictPropertyInitialization": false,
     "typeRoots": ["./node_modules/@types"],
-    "types": []
+    "types": [],
+    "jsx": "react"
   },
   "exclude": ["node_modules"]
 }

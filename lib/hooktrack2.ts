@@ -124,7 +124,7 @@ export class Hooktrack2Service extends core.Construct {
     });
 
     new s3deploy.BucketDeployment(this, "DeployWithInvalidation", {
-      sources: [s3deploy.Source.asset("./public")],
+      sources: [s3deploy.Source.asset("./front/dist")],
       destinationBucket: siteBucket,
       distribution: cloudfrontDist,
       distributionPaths: ["/*"],
