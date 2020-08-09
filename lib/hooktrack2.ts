@@ -3,7 +3,6 @@ import * as apigateway from "@aws-cdk/aws-apigateway";
 import * as lambda from "@aws-cdk/aws-lambda";
 import * as dynamodb from "@aws-cdk/aws-dynamodb";
 import cloudfront = require("@aws-cdk/aws-cloudfront");
-import route53 = require("@aws-cdk/aws-route53");
 import s3 = require("@aws-cdk/aws-s3");
 import s3deploy = require("@aws-cdk/aws-s3-deployment");
 import * as iam from "@aws-cdk/aws-iam";
@@ -11,8 +10,6 @@ import * as iam from "@aws-cdk/aws-iam";
 export interface Props {
   region: string;
   urlSuffix: string;
-  domainName: string;
-  siteSubDomain: string;
 }
 
 export class Hooktrack2Service extends core.Construct {
@@ -66,20 +63,9 @@ export class Hooktrack2Service extends core.Construct {
     userApi.addMethod("PATCH", apiIntegration);
     userApi.addMethod("DELETE", apiIntegration);
 
-    // const zone = route53.HostedZone.fromLookup(this, "Zone", {
-    //   domainName: props.domainName,
-    // });
-    const siteDomain = props.siteSubDomain + "." + props.domainName;
-    new core.CfnOutput(this, "Site", {
-      value: "https://" + siteDomain,
-    });
-
-    // Content bucket
     const siteBucket = new s3.Bucket(this, "Hooktrack2Bucket", {
-      // bucketName: siteDomain,
       websiteIndexDocument: "index.html",
       websiteErrorDocument: "error.html",
-      // publicReadAccess: true,
       removalPolicy: core.RemovalPolicy.DESTROY,
     });
     new core.CfnOutput(this, "Bucket", {
@@ -94,9 +80,7 @@ export class Hooktrack2Service extends core.Construct {
       }
     );
     const cloudfrontS3Access = new iam.PolicyStatement();
-    // cloudfrontS3Access.addActions("s3:GetBucket*");
     cloudfrontS3Access.addActions("s3:GetObject*");
-    // cloudfrontS3Access.addActions("s3:List*");
     cloudfrontS3Access.addResources(siteBucket.bucketArn);
     cloudfrontS3Access.addResources(`${siteBucket.bucketArn}/*`);
     cloudfrontS3Access.addCanonicalUserPrincipal(
@@ -130,11 +114,10 @@ export class Hooktrack2Service extends core.Construct {
       }
     );
 
-    new core.CfnOutput(this, "CFTopURL", {
+    new core.CfnOutput(this, "URL", {
       value: `https://${cloudfrontDist.domainName}/`,
     });
 
-    // Deploy site contents to S3 bucket
     new s3deploy.BucketDeployment(this, "DeployWithInvalidation", {
       sources: [s3deploy.Source.asset("./public")],
       destinationBucket: siteBucket,
