@@ -5,8 +5,8 @@
     "hooktrack2": "bin/hooktrack2.js"
   },
   "scripts": {
-    "postinstall": "cd lambda",
-    "build": "tsc && cd lambda",
+    "postinstall": "(cd lambda && npm install); (cd front && npm install)",
+    "build": "tsc && (cd front && npm run build)",
     "test": "prettier --check **/*.ts && npm run build && cdk synth",
     "e2e-test": "npm run build && mocha -r source-map-support/register test/e2e.test",
     "cdk": "cdk",
