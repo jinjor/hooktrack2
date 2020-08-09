@@ -31,7 +31,7 @@ export class Hooktrack2Service extends core.Construct {
 
     const handler = new lambda.Function(this, "Hooktrack2Handler", {
       runtime: lambda.Runtime.NODEJS_12_X,
-      code: lambda.Code.asset("resources"),
+      code: lambda.Code.asset("lambda"),
       handler: "api.main",
       environment: {
         TABLE_NAME: table.tableName,
