@@ -6,6 +6,7 @@ import cloudfront = require("@aws-cdk/aws-cloudfront");
 import route53 = require("@aws-cdk/aws-route53");
 import s3 = require("@aws-cdk/aws-s3");
 import s3deploy = require("@aws-cdk/aws-s3-deployment");
+import * as iam from "@aws-cdk/aws-iam";
 
 export interface StaticSiteProps {
   domainName: string;
@@ -63,9 +64,6 @@ export class Hooktrack2Service extends core.Construct {
     userApi.addMethod("PATCH", apiIntegration);
     userApi.addMethod("DELETE", apiIntegration);
 
-    // WIP
-    // https://github.com/aws-samples/aws-cdk-examples/tree/master/typescript/static-site
-
     // const zone = route53.HostedZone.fromLookup(this, "Zone", {
     //   domainName: props.domainName,
     // });
@@ -75,23 +73,59 @@ export class Hooktrack2Service extends core.Construct {
     });
 
     // Content bucket
-    const siteBucket = new s3.Bucket(this, "SiteBucket", {
-      bucketName: siteDomain,
+    const siteBucket = new s3.Bucket(this, "Hooktrack2Bucket", {
+      // bucketName: siteDomain,
       websiteIndexDocument: "index.html",
       websiteErrorDocument: "error.html",
-      publicReadAccess: true,
+      // publicReadAccess: true,
       removalPolicy: core.RemovalPolicy.DESTROY,
     });
     new core.CfnOutput(this, "Bucket", {
       value: siteBucket.bucketName,
     });
 
+    const cloudFrontOAI = new cloudfront.OriginAccessIdentity(
+      this,
+      "Hooktrack2OAI",
+      {
+        comment: `OAI for Hooktrack2OAI`,
+      }
+    );
+    const cloudfrontS3Access = new iam.PolicyStatement();
+    // cloudfrontS3Access.addActions("s3:GetBucket*");
+    cloudfrontS3Access.addActions("s3:GetObject*");
+    // cloudfrontS3Access.addActions("s3:List*");
+    cloudfrontS3Access.addResources(siteBucket.bucketArn);
+    cloudfrontS3Access.addResources(`${siteBucket.bucketArn}/*`);
+    cloudfrontS3Access.addCanonicalUserPrincipal(
+      cloudFrontOAI.cloudFrontOriginAccessIdentityS3CanonicalUserId
+    );
+    const cloudfrontDist = new cloudfront.CloudFrontWebDistribution(
+      this,
+      `Hooktrack2Distribution`,
+      {
+        originConfigs: [
+          {
+            s3OriginSource: {
+              s3BucketSource: siteBucket,
+              originAccessIdentity: cloudFrontOAI,
+            },
+            behaviors: [{ isDefaultBehavior: true }],
+          },
+        ],
+      }
+    );
+
+    new core.CfnOutput(this, "CFTopURL", {
+      value: `https://${cloudfrontDist.domainName}/`,
+    });
+
     // Deploy site contents to S3 bucket
     new s3deploy.BucketDeployment(this, "DeployWithInvalidation", {
       sources: [s3deploy.Source.asset("./public")],
       destinationBucket: siteBucket,
-      // distribution,
-      // distributionPaths: ["/*"],
+      distribution: cloudfrontDist,
+      distributionPaths: ["/*"],
       retainOnDelete: false,
     });
   }
