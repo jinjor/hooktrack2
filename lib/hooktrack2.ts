@@ -107,6 +107,11 @@ export class Hooktrack2Service extends core.Construct {
               {
                 pathPattern: "/api/*",
                 allowedMethods: cloudfront.CloudFrontAllowedMethods.ALL,
+                // TODO: deprecated, should use origin request policy instead
+                forwardedValues: {
+                  queryString: true,
+                  headers: ["User-Agent"],
+                },
               },
             ],
           },
