@@ -5,8 +5,8 @@ import { Hooktrack2Stack } from "../lib/hooktrack2-stack";
 
 const app = new cdk.App();
 new Hooktrack2Stack(app, "Hooktrack2Stack-with-front", {
-  env: {
-    account: process.env.CDK_DEFAULT_ACCOUNT,
-    region: process.env.CDK_DEFAULT_REGION,
-  },
+  // env: {
+  //   account: process.env.CDK_DEFAULT_ACCOUNT,
+  //   region: process.env.CDK_DEFAULT_REGION,
+  // },
 });
