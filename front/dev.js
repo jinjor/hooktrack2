@@ -15,6 +15,7 @@ app.use(
   createProxyMiddleware("/api", {
     target,
     changeOrigin: true,
+    // logLevel: "debug",
   })
 );
 
