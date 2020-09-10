@@ -1,3 +1,21 @@
-* {
-  color: red;
+body {
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+pre {
+  margin-left: -20px;
+  margin-right: -20px;
+  word-break: break-all;
+  white-space: pre-wrap;
+  padding: 20px;
+  background: #316;
+  color: white;
+  line-height: 1.8em;
+}
+code:nth-child(4n + 3) {
+  font-weight: bold;
+  color: #aaa;
 }
