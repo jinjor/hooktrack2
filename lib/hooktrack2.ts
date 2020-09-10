@@ -119,6 +119,13 @@ export class Hooktrack2Service extends core.Construct {
             ],
           },
         ],
+        errorConfigurations: [
+          {
+            errorCode: 403,
+            responseCode: 404,
+            responsePagePath: "/404.html",
+          },
+        ],
       }
     );
 
