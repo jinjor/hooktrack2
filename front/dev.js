@@ -15,7 +15,13 @@ app.use(
   createProxyMiddleware("/api", {
     target,
     changeOrigin: true,
-    // logLevel: "debug",
+    logLevel: "debug",
+    onProxyReq: (proxyReq, req, res) => {
+      console.log("REQ", req.headers);
+    },
+    onProxyRes: (proxyRes, req, res) => {
+      console.log("RES", proxyRes.headers);
+    },
   })
 );
 
