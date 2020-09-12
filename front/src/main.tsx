@@ -22,7 +22,7 @@ const ResultItem = (props: { result: any }) => {
   const date = new Date(result.requestedAt);
   const formattedTimestamp = date.toTimeString();
   return (
-    <tr key={result.requestedAt}>
+    <tr>
       <td>{formattedTimestamp}</td>
       <td>{JSON.stringify(result.request.body) ?? "(empty)"}</td>
     </tr>
@@ -77,7 +77,7 @@ const EndpointPage = (props: { endpointKey: string }) => {
             </thead>
             <tbody>
               {items.map((item: any) => (
-                <ResultItem result={item} />
+                <ResultItem key={item.requestedAt} result={item} />
               ))}
             </tbody>
           </table>
