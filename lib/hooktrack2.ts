@@ -53,6 +53,7 @@ export class Hooktrack2Service extends core.Construct {
     const endpointsId = endpoints.addResource("{id}");
     const endpointsIdResults = endpointsId.addResource("results");
     endpoints.addMethod("POST", apiIntegration);
+    endpointsId.addMethod("GET", apiIntegration);
     endpointsIdResults.addMethod("GET", apiIntegration);
 
     const userApi = api.addResource("{key}");
