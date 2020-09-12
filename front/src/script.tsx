@@ -123,7 +123,7 @@ const TopPage = () => {
         <code>{`{"items":[{"request":{"method":"GET","headers":{"host":"${location.host}","connection":"close","user-agent":"curl/7.54.0","accept":"*/*","x-request-id":"26b654c2-18be-4c53-8018-d9d707a8e5dc","x-forwarded-for":"153.156.78.134","x-forwarded-proto":"http","x-forwarded-port":"80","via":"1.1 vegur","connect-time":"0","x-request-start":"1565949486167","total-route-time":"0"},"body":{}},"requestedAt":1565949486167}]}`}</code>
       </pre>
       <p>
-        <a href="https://github.app/jinjor/hooktrack2">Source(GitHub)</a>
+        <a href="https://github.com/jinjor/hooktrack2">Source(GitHub)</a>
       </p>
       <p>
         <button onClick={handleClick}>Create New Endpoint</button>
