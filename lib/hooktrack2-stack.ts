@@ -5,6 +5,9 @@ export class Hooktrack2Stack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    new hooktrack2.Hooktrack2Service(this, "Hooktrack2");
+    new hooktrack2.Hooktrack2Service(this, "Hooktrack2", {
+      region: this.region,
+      urlSuffix: this.urlSuffix,
+    });
   }
 }

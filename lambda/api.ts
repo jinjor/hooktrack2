@@ -25,9 +25,20 @@ const handler: lambda.APIGatewayProxyHandler = async (
       return sendJson(200, { key });
     } else if (
       method === "GET" &&
-      (matched = /^\/endpoints\/([^/]+)\/results/.exec(path))
+      (matched = /^\/endpoints\/([^/]+)$/.exec(path))
     ) {
       console.log("branch 2");
+      const key = matched[1];
+      const endpoint = await data.getEndpoint(key);
+      if (endpoint == null) {
+        throw new StatusError(404, "endpoint not found");
+      }
+      return sendJson(200, endpoint);
+    } else if (
+      method === "GET" &&
+      (matched = /^\/endpoints\/([^/]+)\/results$/.exec(path))
+    ) {
+      console.log("branch 3");
       const key = matched[1];
       const from = decode(fromDecoder, event.queryStringParameters?.from);
       const results = await data.getResults(key, from);
@@ -38,7 +49,7 @@ const handler: lambda.APIGatewayProxyHandler = async (
         items: results,
       });
     } else if ((matched = /^\/([^/]+)/.exec(path))) {
-      console.log("branch 3");
+      console.log("branch 4");
       const key = matched[1];
       const endpoint = await data.getEndpoint(key);
       if (endpoint && endpoint.method === method) {
