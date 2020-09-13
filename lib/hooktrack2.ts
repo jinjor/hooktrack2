@@ -99,6 +99,7 @@ export class Hooktrack2Service extends core.Construct {
             },
             behaviors: [{ isDefaultBehavior: true }],
           },
+          // TODO: Directly access to API Gateway
           {
             customOriginSource: {
               domainName: `${restApi.restApiId}.execute-api.${props.region}.${props.urlSuffix}`,
